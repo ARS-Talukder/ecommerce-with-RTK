@@ -1,23 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
 import Products from "../Shared/Products";
-import { useEffect, useState } from "react";
 import { toggle, toggleBrands } from "../../features/filter/filterSlice";
+import { useGetProductsQuery } from "../../features/api/apiSlice";
 const Home = () => {
-    const [products, setProducts] = useState([]);
-    useEffect(() => {
-        fetch("http://localhost:5000/products")
-            .then(data => data.json())
-            .then(data => setProducts(data))
-    }, [])
+    // const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery(null, { refetchOnMountOrArgChange: true });
+    const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
+    
+    const products = data;
+    console.log(data, error)
     const dispatch = useDispatch();
     const state = useSelector(state => state);
     const { stock, brands } = state.filter;
     const activeClass = "btn-sm rounded-lg font-bold bg-blue-600 text-white";
     let content;
-    if (!products.length) {
+    if (isLoading) {
         return content = "LOADING..."
     }
-    if (products.length) {
+    if (isError) {
+        return error.status
+    }
+    if (isSuccess) {
         content = products.map(product => <Products key={product._id} product={product}></Products>)
     }
     if (products.length && (stock || brands.length)) {

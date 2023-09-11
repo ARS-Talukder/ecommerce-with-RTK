@@ -1,5 +1,18 @@
+import { useGetProductsQuery } from "../../features/api/apiSlice";
+import Product from "./Product";
 
 const ProductList = () => {
+    const { data, isLoading, isSuccess } = useGetProductsQuery();
+    const products = data;
+
+    let content;
+
+    if (isLoading) {
+        return "LOADING..."
+    }
+    if (isSuccess) {
+        content = products.map((product, index) => <Product index={index} key={product._id} product={product}></Product>)
+    }
 
     return (
         <div>
@@ -17,7 +30,7 @@ const ProductList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                      
+                        {content}
                     </tbody>
                 </table>
             </div>

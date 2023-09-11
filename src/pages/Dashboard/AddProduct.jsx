@@ -1,15 +1,31 @@
 import { useForm } from "react-hook-form";
+import { useAddProductMutation } from "../../features/api/apiSlice";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const AddProduct = () => {
-
     const { register, handleSubmit, reset } = useForm();
+
+    const [addProduct, result] = useAddProductMutation();
+    const { isLoading, isSuccess } = result;
+
+    useEffect(() => {
+        if (isLoading) {
+            toast.loading("LOADING...", { id: "addProduct" })
+        }
+        if (isSuccess) {
+            toast.success("Added Successfully", { id: "addProduct" })
+            reset();
+        }
+    }, [isLoading, isSuccess, reset])
+
     const onSubmit = (data) => {
         let { model, image, price, brand, status, key1, key2, key3, key4 } = data;
         status = status === "available" ? true : false;
         const keyFeature = [key1, key2, key3.value, key4];
         const product = { model, image, price, brand, status, keyFeature };
-        console.log(product);
-        reset();
+        // console.log(product);
+        addProduct(product)
     }
     return (
         <div>

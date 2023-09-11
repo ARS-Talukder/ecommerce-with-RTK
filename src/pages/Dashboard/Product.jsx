@@ -1,11 +1,12 @@
 import { AiFillDelete, AiTwotoneEdit } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { removeProduct } from "../../features/products/productsSlice";
 import { Link } from "react-router-dom";
+import { useRemoveProductMutation } from "../../features/api/apiSlice";
 
 const Product = ({ product, index }) => {
     const { _id, model, brand, price, status, } = product;
     const dispatch = useDispatch();
+    const [removeProduct] = useRemoveProductMutation();
     return (
         <tr>
             <th>{index + 1}</th>
