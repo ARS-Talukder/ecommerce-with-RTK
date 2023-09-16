@@ -2,8 +2,10 @@ import { useForm } from "react-hook-form";
 import { useAddProductMutation } from "../../features/api/apiSlice";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 
 const AddProduct = () => {
+    const dispatch = useDispatch();
     const { register, handleSubmit, reset } = useForm();
 
     const [addProduct, result] = useAddProductMutation();
@@ -25,7 +27,8 @@ const AddProduct = () => {
         const keyFeature = [key1, key2, key3.value, key4];
         const product = { model, image, price, brand, status, keyFeature };
         // console.log(product);
-        addProduct(product)
+        dispatch(addProduct(product))
+
     }
     return (
         <div>
