@@ -42,6 +42,13 @@ const Products = ({ product }) => {
                         Remove from cart
                     </button>
                 }
+                {
+                    location.pathname === '/carts' &&
+                    <button
+                        className='bg-blue-500 rounded-full py-1 px-2 flex-1 text-white text-bold'>
+                        See details
+                    </button>
+                }
 
 
             </div>
